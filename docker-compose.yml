@@ -1,0 +1,30 @@
+version: '3.1'
+services:
+    mariadb:
+        image: 'mariadb:10.6'
+        working_dir: /application
+        volumes:
+            - '.:/application'
+        environment:
+            - MYSQL_ROOT_PASSWORD=heslo
+            - MYSQL_DATABASE=chorister
+            - MYSQL_USER=devel
+            - MYSQL_PASSWORD=heslo
+        ports:
+            - '8083:3306'
+
+    webserver:
+        image: 'nginx:alpine'
+        working_dir: /application
+        volumes:
+            - '.:/application'
+            - './docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
+        ports:
+            - '8080:80'
+
+    php-fpm:
+        build: docker/php-fpm
+        working_dir: /application
+        volumes:
+            - '.:/application'
+            - './docker/php-fpm/php-ini-overrides.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini'
