@@ -62,9 +62,14 @@
         "phpstan": "phpstan",
         "phpcs": "phpcs",
         "phpcbf": "phpcbf",
+        "slint": [
+            "bin/console lint:container",
+            "bin/console lint:yaml config"
+        ],
         "test": [
             "@phpstan",
-            "@phpcs"
+            "@phpcs",
+            "@slint"
         ]
     },
     "conflict": {
