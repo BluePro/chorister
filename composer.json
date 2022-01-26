@@ -19,6 +19,7 @@
         "symfony/yaml": "6.0.*"
     },
     "require-dev": {
+        "phpstan/phpstan-doctrine": "^1.2",
         "phpstan/phpstan-symfony": "^1.1",
         "squizlabs/php_codesniffer": "^3.6",
         "symfony/maker-bundle": "^1.36",
