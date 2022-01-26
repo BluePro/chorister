@@ -15,6 +15,7 @@
         "symfony/yaml": "6.0.*"
     },
     "require-dev": {
+        "phpstan/phpstan-symfony": "^1.1"
     },
     "config": {
         "allow-plugins": {
@@ -56,6 +57,10 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "phpstan": "phpstan",
+        "test": [
+            "@phpstan"
         ]
     },
     "conflict": {
