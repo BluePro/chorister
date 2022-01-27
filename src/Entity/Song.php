@@ -23,9 +23,13 @@ class Song
     #[ORM\OneToMany(mappedBy: 'song', targetEntity: Catalog::class, orphanRemoval: true)]
     private Collection $catalogs;
 
+    #[ORM\ManyToMany(targetEntity: Liturgy::class, inversedBy: 'songs')]
+    private Collection $liturgy;
+
     public function __construct()
     {
         $this->catalogs = new ArrayCollection();
+        $this->liturgy = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -45,6 +49,9 @@ class Song
         return $this;
     }
 
+  /**
+   * @return Collection|Catalog[]
+   */
     public function getCatalogs(): Collection
     {
         return $this->catalogs;
@@ -68,6 +75,30 @@ class Song
                 $catalog->setSong(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Liturgy[]
+     */
+    public function getLiturgy(): Collection
+    {
+        return $this->liturgy;
+    }
+
+    public function addLiturgy(Liturgy $liturgy): self
+    {
+        if (!$this->liturgy->contains($liturgy)) {
+            $this->liturgy[] = $liturgy;
+        }
+
+        return $this;
+    }
+
+    public function removeLiturgy(Liturgy $liturgy): self
+    {
+        $this->liturgy->removeElement($liturgy);
 
         return $this;
     }

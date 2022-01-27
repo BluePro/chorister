@@ -60,6 +60,9 @@ class SongBook
         return $this;
     }
 
+  /**
+   * @return Collection|Catalog[]
+   */
     public function getCatalogs(): Collection
     {
         return $this->catalogs;
