@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\SongBookRepository;
@@ -58,9 +60,6 @@ class SongBook
         return $this;
     }
 
-    /**
-     * @return Collection|Catalog[]
-     */
     public function getCatalogs(): Collection
     {
         return $this->catalogs;

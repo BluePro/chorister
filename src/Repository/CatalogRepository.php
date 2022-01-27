@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Catalog;
@@ -11,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Catalog|null findOneBy(array $criteria, array $orderBy = null)
  * @method Catalog[]    findAll()
  * @method Catalog[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends  ServiceEntityRepository<Catalog>
  */
 class CatalogRepository extends ServiceEntityRepository
 {

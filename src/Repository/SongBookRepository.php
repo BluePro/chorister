@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\SongBook;
@@ -11,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method SongBook|null findOneBy(array $criteria, array $orderBy = null)
  * @method SongBook[]    findAll()
  * @method SongBook[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends  ServiceEntityRepository<SongBook>
  */
 class SongBookRepository extends ServiceEntityRepository
 {
