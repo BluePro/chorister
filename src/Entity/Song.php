@@ -26,10 +26,14 @@ class Song
     #[ORM\ManyToMany(targetEntity: Liturgy::class, inversedBy: 'songs')]
     private Collection $liturgy;
 
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'songs')]
+    private Collection $tags;
+
     public function __construct()
     {
         $this->catalogs = new ArrayCollection();
         $this->liturgy = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,6 +103,30 @@ class Song
     public function removeLiturgy(Liturgy $liturgy): self
     {
         $this->liturgy->removeElement($liturgy);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }
