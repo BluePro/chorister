@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Repository\CatalogRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: CatalogRepository::class)]
 class Catalog
@@ -18,10 +19,12 @@ class Catalog
     #[ORM\Column(type: 'string', length: 255)]
     private string $number;
 
+    #[Ignore]
     #[ORM\ManyToOne(targetEntity: Song::class, inversedBy: 'catalogs')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Song $song;
 
+    #[Ignore]
     #[ORM\ManyToOne(targetEntity: SongBook::class, inversedBy: 'catalogs')]
     #[ORM\JoinColumn(nullable: false)]
     private ?SongBook $songbook;
