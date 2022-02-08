@@ -6,7 +6,7 @@ use App\Entity\SongBook;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class SongBookFixtures extends Fixture
+class AppFixtures extends Fixture
 {
     private const SONG_BOOK_LIST = [
         'Hosana I' => '2c3056',
@@ -16,7 +16,7 @@ class SongBookFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         foreach (self::SONG_BOOK_LIST as $name => $color) {
-            $songBook  = new SongBook();
+            $songBook = new SongBook();
             $songBook
                 ->setName($name)
                 ->setColor($color);
