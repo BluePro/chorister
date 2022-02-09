@@ -37,7 +37,7 @@ class SongController extends AbstractController
         if ($item) {
             $song = $this->schemaFactory->createSong($item);
         } else {
-            throw new NotFoundHttpException("Song #$id not found", null, 40102);
+            throw new NotFoundHttpException("Song #$id not found", null, 40402);
         }
         return $this->json($song);
     }

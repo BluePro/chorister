@@ -27,7 +27,7 @@ class ExceptionListener
         $data = $this->serializer->serialize($error, 'json');
 
         if ($exception instanceof HttpExceptionInterface) {
-            $response = new JsonResponse($data, $exception->getStatusCode(), [], true);
+            $response = new JsonResponse($data, $exception->getStatusCode(), $exception->getHeaders(), true);
         } else {
             $response = new JsonResponse($data, Response::HTTP_INTERNAL_SERVER_ERROR, [], true);
         }
