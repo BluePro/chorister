@@ -31,12 +31,12 @@ class SongBook
         $this->catalogs = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -80,12 +80,7 @@ class SongBook
 
     public function removeCatalog(Catalog $catalog): self
     {
-        if ($this->catalogs->removeElement($catalog)) {
-            // set the owning side to null (unless already changed)
-            if ($catalog->getSongbook() === $this) {
-                $catalog->setSongbook(null);
-            }
-        }
+        $this->catalogs->removeElement($catalog);
 
         return $this;
     }
