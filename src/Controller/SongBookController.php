@@ -8,6 +8,7 @@ use App\Repository\SongBookRepository;
 use App\Schema\SchemaFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SongBookController extends AbstractController
@@ -33,7 +34,11 @@ class SongBookController extends AbstractController
     public function item(int $id): Response
     {
         $item = $this->songBookRepository->find($id);
-        $songBook = $item ? $this->schemaFactory->createSongBook($item) : null;
+        if ($item) {
+            $songBook = $this->schemaFactory->createSongBook($item);
+        } else {
+            throw new NotFoundHttpException("SongBook #$id not found", null, 40101);
+        }
         return $this->json($songBook);
     }
 }

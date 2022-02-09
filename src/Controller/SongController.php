@@ -8,6 +8,7 @@ use App\Repository\SongRepository;
 use App\Schema\SchemaFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SongController extends AbstractController
@@ -33,7 +34,11 @@ class SongController extends AbstractController
     public function item(int $id): Response
     {
         $item = $this->songRepository->find($id);
-        $song = $item ? $this->schemaFactory->createSong($item) : null;
+        if ($item) {
+            $song = $this->schemaFactory->createSong($item);
+        } else {
+            throw new NotFoundHttpException("Song #$id not found", null, 40102);
+        }
         return $this->json($song);
     }
 }

@@ -108,4 +108,12 @@ class SchemaFactory
 
         return $list;
     }
+
+    public function createError(\Throwable $exception): Error
+    {
+        return new Error(
+            $exception->getCode(),
+            $exception->getMessage()
+        );
+    }
 }
