@@ -28,3 +28,9 @@ services:
         volumes:
             - '.:/application'
             - './docker/php-fpm/php-ini-overrides.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini'
+
+    node:
+        image: 'node:alpine'
+        working_dir: /application
+        volumes:
+            - '.:/application'
