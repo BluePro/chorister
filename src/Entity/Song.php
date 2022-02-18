@@ -29,6 +29,9 @@ class Song
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'songs')]
     private Collection $tags;
 
+    #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'songs')]
+    private ?Period $period;
+
     public function __construct()
     {
         $this->catalogs = new ArrayCollection();
@@ -122,6 +125,18 @@ class Song
     public function removeTag(Tag $tag): self
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getPeriod(): ?Period
+    {
+        return $this->period;
+    }
+
+    public function setPeriod(?Period $period): self
+    {
+        $this->period = $period;
 
         return $this;
     }
