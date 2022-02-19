@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Catalog;
 use App\Entity\Liturgy;
+use App\Entity\Period;
 use App\Entity\Song;
 use App\Entity\SongBook;
 use App\Entity\Tag;
@@ -23,20 +24,26 @@ class AppFixtures extends Fixture
         'MP' => 'Přijímání',
         'MZ' => 'Závěr'
     ];
+    private const PERIOD_LIST = [
+        'AD' => 'Advent',
+        'VA' => 'Vánoce',
+        'PU' => 'Postní doba',
+        'VE' => 'Velikonoce'
+    ];
     private const TAG_LIST = [
-        'Postní doba',
-        'Velikonoce',
-        'Andvent'
+        'Žalm',
+        'Opakovací'
     ];
     private const SONG_LIST = [
         'Ejhle Hospodin přijde' => [
             'book' => [ 0 => '96' ],
-            'tag' => [ 2 ],
-            'liturgy' => [ 0 ]
+            'tag' => [],
+            'liturgy' => [ 0 ],
+            'period' => 0
         ],
         'Hospodin je můj pastýř' => [
             'book' => [ 1 => '92' ],
-            'tag' => [],
+            'tag' => [ 0, 1 ],
             'liturgy' => [ 1 ]
         ],
         'Chvalte služebníci' => [
@@ -50,9 +57,10 @@ class AppFixtures extends Fixture
     {
         $songBookList = $this->createSongBookList($manager);
         $liturgyList = $this->createLiturgyList($manager);
+        $periodList = $this->createPeriodList($manager);
         $tagList = $this->createTagList($manager);
 
-        $this->createSongList($manager, $songBookList, $liturgyList, $tagList);
+        $this->createSongList($manager, $songBookList, $liturgyList, $periodList, $tagList);
 
         $manager->flush();
     }
@@ -95,6 +103,24 @@ class AppFixtures extends Fixture
 
     /**
      * @param ObjectManager $manager
+     * @return Period[]
+     */
+    private function createPeriodList(ObjectManager $manager): array
+    {
+        $periodList = [];
+        foreach (self::PERIOD_LIST as $code => $name) {
+            $period = new Period();
+            $period
+                ->setName($name)
+                ->setCode($code);
+            $manager->persist($period);
+            $periodList[] = $period;
+        }
+        return $periodList;
+    }
+
+    /**
+     * @param ObjectManager $manager
      * @return Tag[]
      */
     private function createTagList(ObjectManager $manager): array
@@ -114,6 +140,7 @@ class AppFixtures extends Fixture
      * @param ObjectManager $manager
      * @param SongBook[] $songBookList
      * @param Liturgy[] $liturgyList
+     * @param Period[] $periodList
      * @param Tag[] $tagList
      * @return void
      */
@@ -121,6 +148,7 @@ class AppFixtures extends Fixture
         ObjectManager $manager,
         array $songBookList,
         array $liturgyList,
+        array $periodList,
         array $tagList
     ): void {
         foreach (self::SONG_LIST as $name => $data) {
@@ -130,9 +158,11 @@ class AppFixtures extends Fixture
             foreach ($data['tag'] as $tag) {
                 $song->addTag($tagList[$tag]);
             }
-
             foreach ($data['liturgy'] as $liturgy) {
                 $song->addLiturgy($liturgyList[$liturgy]);
+            }
+            if (isset($data['period'])) {
+                $song->setPeriod($periodList[$data['period']]);
             }
 
             $manager->persist($song);

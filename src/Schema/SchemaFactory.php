@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Schema;
 
 use App\Entity;
+use Throwable;
 
 class SchemaFactory
 {
@@ -70,13 +71,23 @@ class SchemaFactory
         foreach ($songEntity->getCatalogs() as $catalogEntity) {
             $songBookList[] = $this->createSongBookHeader($catalogEntity->getSongbook());
         }
+        $period = $songEntity->getPeriod() ? $this->createPeriod($songEntity->getPeriod()) : null;
 
         return new Song(
             $songEntity->getId(),
             $songEntity->getName(),
+            $period,
             $liturgyList,
             $tagList,
             $songBookList
+        );
+    }
+
+    private function createPeriod(Entity\Period $period): Period
+    {
+        return new Period(
+            $period->getCode(),
+            $period->getName()
         );
     }
 
@@ -109,7 +120,7 @@ class SchemaFactory
         return $list;
     }
 
-    public function createError(\Throwable $exception): Error
+    public function createError(Throwable $exception): Error
     {
         return new Error(
             $exception->getCode(),
